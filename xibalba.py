@@ -113,14 +113,12 @@ else:
     global version
     global oldrelease
     global latest
-    global md5
-    global md5text
     global checkcount
     global connectedonstartup
 
     oldrelease = False
 
-    version = "0.5.1"
+    version = "0.5.2"
 
     connectedonstartup = False
     logpath = "/tmp/xibalba.log"
@@ -135,7 +133,6 @@ else:
     country = ""
     ip = "NO AVAILABLE"
     latest = "0.0"
-    md5text = ""
     checkcount = 0
 
 
@@ -150,8 +147,6 @@ else:
         global version
         global oldrelease
         global latest
-        global md5
-        global md5text
         global checkcount
         global connectedonstartup
 
@@ -162,7 +157,7 @@ else:
         os.system(logcommand)
 
         try:
-            latest = urllib.urlopen('http://xibalbasite-k3rbs.rhcloud.com/version.txt').read().split()[0]
+            latest = urllib.urlopen('https://raw.githubusercontent.com/cuerti/xibalba/master/VERSION').read().split()[0]
         except:
             latest = "0.0"
         
@@ -175,11 +170,6 @@ else:
             os.system(updateinfo)
 
 
-        try:
-            md5 = urllib.urlopen('http://xibalbasite-k3rbs.rhcloud.com/md5sum.txt').read().split()[0]
-            md5text = "\n\n   (md5sum: "+md5+")"
-        except:
-            md5text = ""
 
         if (latest > version):
             oldrelease = True
@@ -484,9 +474,9 @@ else:
             if str(response) == "-8":   ### '-8' is the value of the "YES" button in the dialog
                 if (os.path.isfile("/tmp/xibalba-latest.tar.bz2")):
                     os.system("rm -f /tmp/xibalba-latest.tar.bz2")
-                os.system("wget -r -q xibalbasite-k3rbs.rhcloud.com/latest.tar.bz2 -O /tmp/xibalba-latest.tar.bz2")
+                os.system("wget -r -q https://github.com/cuerti/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
                 os.system("chmod 777 /tmp/xibalba-latest.tar.bz2")
-                self.message("Download complete!\n\nYou can find the file in:\n\n    /tmp/xibalba-latest.tar.bz2\n")
+                self.message("Download complete!\n\nYou can find the file in:\n\n    /tmp/xibalba-latest.zip\n")
 
             msg.destroy()
 
@@ -541,11 +531,11 @@ else:
             updates.show()
             menu.append(updates)
             if (oldrelease):
-                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can download the latest stable version from here:\n\n    http://xibalbasite-k3rbs.rhcloud.com/latest.tar.bz2'+md5text+"\n\n\n\n Do you wanna to download it now?")
+                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can download the latest stable version from here:\n\n    https://github.com/cuerti/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
             elif (version == latest):
                 updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\n\nYour version is up to date :)')
             else:
-                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nPlease download the latest stable version from here:\n\n    http://xibalbasite-k3rbs.rhcloud.com/latest.tar.bz2'+md5text+"\n\n\n\n Do you wanna to download it now?")
+                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nPlease download the latest stable version from here:\n\n    https://github.com/cuerti/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
 
             # add quit item
             quit = gtk.MenuItem("Quit")

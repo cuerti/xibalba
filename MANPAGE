@@ -1,6 +1,18 @@
-.TH "XIBALBA" "1" "June 25, 2014" " 0.5.1" "Networking Tools"
+.TH "XIBALBA" "1" "June 26, 2014" " 0.5.2" "Networking Tools"
 .SH "NAME"
 Xibalba \(em VPN monitor tool and Internet Kill Switch
+.SH "MODES"
+.IP "\fB""Reconnection"" mode:\fP"
+If Xibalba detects that your VPN is down, it alert the user and tries to restore the VPN connection automatically
+.br
+This is Xibalba's default behaviour (no extra flag needed)
+.IP "\fB""Internet Kill Switch"" mode:\fP"
+If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages
+.br
+If using this mode you're really secure, and if your VPN goes down there is no way your IP get leaked
+.br
+If you want to run Xibalba with the Kill Switch feature, you have tu use [\fB-k\fP, \fB--killswitch\fP] param
+
 .SH "CONSIDERATIONS"
 .PP
 If you are running this script while your VPN \fIis active\fP and connected: You should use only [\fB-c\fP, \fB--connection\fP] parameter ([\fB-u\fP, \fB--uuid\fP] is also welcome, but not mandatory)
