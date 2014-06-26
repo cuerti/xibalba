@@ -1,0 +1,64 @@
+
+  .-----------------------.
+--|   Xibalba ChangeLog   |---------------------------------------------
+  `-----------------------'
+
+There are always more changes than listed here, these are just the
+highlights.
+
+
+
+------------------------------------------------------------------------
+ 0.5.2 - 26/Jun/2014
+------------------------------------------------------------------------
+
+ - Changed Xibalba's directory structure (added /images).
+ - Changed the [-V, --changelog] layout.
+ - Added 'less' dep.
+ - Removed 'cat' dep.
+ - Moved from GPLv2 to GPLv3 (References and 'LICENSE' file).
+ - Improved quiet connection and reconnection (no more non 
+   human-friendly log system at standard output when reconnecting to the
+   VPN!).
+ - Very important bugfix: when using Xibalba while no connected to a
+   VPN, the startup connection never happens (only works when you're not
+   using the Internet Kill Switch [-k, --killswitch]).
+ - Changed the 'CHANGELOG' file layout.
+ 
+
+
+------------------------------------------------------------------------
+ 0.5.1 - 25/Jun/2014
+------------------------------------------------------------------------
+
+ - We (finally!) started documenting the changelog.
+ - Added some alerts for those python3 users who don't have python2 
+   installed.
+ - Support for VPNs configured with whitespaces in it's name/label.
+ - Added some documentation about [-c, --connection] param.
+ - Check all deps at startup (and alert if some of them are not found).
+ - Improved exception manage and handle. Now Xibalba handle ALL kind of 
+   system exceptions (before this, we used to manage only some types of 
+   them).
+ - Added some alerts for those gtk3 users who don't have gtk2 libs 
+   installed.
+ - Handle some GeoIP errors when the user IP is not assigned to any 
+   country (i.e: anonymous proxies and VPNs). Now we show a "[N/A]" in 
+   the country tag.
+ - Implemented GPLv2 License to Xibalba.
+ - Added GPLv2 license file.
+ - Added [-L, --license] param.
+ - Added much more documentation to [-h, --help] param.
+ - Replaced the ugly old documentation system (about 60 'print' 
+   statements) with a cool and more standard linux manpage.
+ - Added the "Status Check Counter" to the VPN Status window.
+ - Removed the [-o, --oldhelp] param. This param was only used for 
+   testing.
+ - Changed the versioning name system. Old one was "0.5a", new one is 
+   "0.5.1".
+ - Added [-V, --changelog] param to show the changelog within the app.
+ - Added 'man', 'cat' and 'wget' deps.
+ - Added [-L, --license] and [-V, --changelog] documentation to the 
+   anpage. 
+
+

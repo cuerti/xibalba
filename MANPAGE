@@ -1,0 +1,83 @@
+.TH "XIBALBA" "1" "June 25, 2014" " 0.5.1" "Networking Tools"
+.SH "NAME"
+Xibalba \(em VPN monitor tool and Internet Kill Switch
+.SH "CONSIDERATIONS"
+.PP
+If you are running this script while your VPN \fIis active\fP and connected: You should use only [\fB-c\fP, \fB--connection\fP] parameter ([\fB-u\fP, \fB--uuid\fP] is also welcome, but not mandatory)
+.PP
+If you are running this script while your VPN \fIis not active\fP: You should use [\fB-c\fP, \fB--connection\fP] and [\fB-u\fP, \fB--uuid\fP] parameters (both are mandatory)
+.SH "OPTIONS"
+.IP "\fB-u\fP \fISTRING\fP, \fB--uuid=\fP\fISTRING\fP"
+Set the VPN uuid
+.br
+(you can get your VPN uuid running '$ nmcli con status' in your shell while connected to the VPN -no root required-)
+
+.IP "\fB-c\fP \fISTRING\fP, \fB--connection=\fP\fISTRING\fP"
+Set the VPN name/label
+.br
+If the connection name/label has more than one word, you should put it between double quotation marks (" ")
+.br
+REMINDER: This param is case sensitive!
+.br
+(you can check your VPN name/label running '$ nmcli con status' in your shell while connected to the VPN  -no root required-)
+
+.IP "\fB-l\fP \fISTRING\fP, \fB--logfile=\fP\fISTRING\fP"
+Set the full path of the logfile where Xibalba will write the output
+.br
+The user running Xibalba needs read and write rights in this path
+.br
+By default, logs are being saved in /tmp/xibalba.log
+
+.IP "\fB-t\fP \fIVALUE\fP, \fB--timeloop=\fP\fIVALUE\fP"
+Set the time (in seconds) that Xibalba will use to cycle between each VPN status check
+.br
+Default value: 30
+
+.IP "\fB-k\fP, \fB--killswitch\fP"
+Enable the 'Internet Kill Switch' mode.
+.br
+When running with this flag set and a VPN disconnection happens, instead of trying to reconnect to the VPN, Xibalba automatically shut down ALL the network traffic
+.br
+The Kill Switch mode prevents the user to continue browsing the internet when the VPN disconnects, by doing this it prevents the user not notifying when the VPN is down
+.br
+This mode is recommended for those more paranoid, and other people interested in avoiding leaks while browsing the internet protected with a VPN
+.br
+In order to browse the internet again after this switch gets activated, you have to run Xibalba with [\fB-r\fP, \fB--restorenetwork\fP] flag
+.br
+You need to be root to run Xibalba with the Kill Switch mode (It needs to upgrade your iptables rules)
+
+.IP "\fB-r\fP, \fB--restorenetwork\fP"
+Restore your internet browsing. You have to do this when you wanna use your internet connection normally after the Internet Kill Switch gets activated.
+.br
+You need to be root to run Xibalba with the Restore mode (It needs to upgrade your iptables rules)
+
+.IP "\fB-V\fP, \fB--changelog\fP"
+Show Xibalba ChangeLog
+
+.IP "\fB-L\fP, \fB--license\fP"
+Show contents of GPLv3
+
+.IP "\fB-h\fP, \fB--help\fP"
+Show this help
+
+
+.SH "USE EXAMPLE"
+.PP
+.IP "# python xibalba.py -c ""VPN Connection Name"" -k --timeloop=10"
+Starts monitoring the VPN named "VPN Connection Name" with the Internet Kill Switch enabled and a check cycle of 10 seconds
+
+.IP "$ python xibalba.py -c ""VPN Connection Name"" -l ~/mylogfile -u 9i1257c1-cfd8-42g1-a25e-d1e44e5t9afd"
+Starts monitoring the VPN named "VPN Connection Name" whose uuid is "9i1257c1-cfd8-42g1-a25e-d1e44e5t9afd" and change the default logfile to ~/mylogfile
+
+.IP "# python xibalbla.py -r"
+Restore the network configuration after the Internet Kill Switch gets activated.
+
+.IP "$ python xibalba.py --help"
+Show this help.
+
+.SH "AUTHOR"
+.PP
+Written by eif0.
+
+.SH "BUG REPORTING"
+Report Xibalba bugs to eif0@hush.com
