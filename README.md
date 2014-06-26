@@ -3,9 +3,9 @@
 Xibalba is a networking tool focused on those who use VPN connections most part of the day and want to be sure that their secure connection is always alive.
 
 The application has two major ways of use:
-* "Reconnection" mode: If Xibalba detects that your VPN is down, it alert the user and tries to restore the VPN connection automatically. This is Xibalba's default behaviour (no extra flag needed).
+* __"Reconnection" mode:__ If Xibalba detects that your VPN is down, it alert the user and tries to restore the VPN connection automatically. This is Xibalba's default behaviour (no extra flag needed).
 
-* "Internet Kill Switch" mode: If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages. By doing this you're really secure, and if your VPN goes down there is no way your IP get leaked when your VPN falls. You want to run Xibalba with the Kill Switch feature, you have tu use [-k, --killswitch] param.
+* __"Internet Kill Switch" mode:__ If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages. By doing this you're really secure, and if your VPN goes down there is no way your IP get leaked when your VPN falls. You want to run Xibalba with the Kill Switch feature, you have tu use [-k, --killswitch] param.
 
 It all started when I was looking for some app that could monitor my VPN connections and implements a KillSwitch when any of them fail. After a while I couldn't find nothing that implement this in a secure way, so this project is my take at creating one.
 
@@ -70,6 +70,6 @@ Also, as said before, my email is always available for suggestions, ideas and ca
 
 Last, but not least, if you like this project and find it usefull you can buy me a beer
 
-* [BitCoin: 12toiKBQG8NukypFSd5qKvWCp1rtoPqyur](bitcoin:12toiKBQG8NukypFSd5qKvWCp1rtoPqyur)
-* [LiteCoin: LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR](litecoin:LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR)
+* BitCoin: __12toiKBQG8NukypFSd5qKvWCp1rtoPqyur__
+* LiteCoin: __LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR__
 
