@@ -68,7 +68,7 @@ Also, as said before, my email is always available for suggestions, ideas and ca
 
 ### Invite me a beer
 
-Last, but not least, if you like this project and find it usefull you can buy me a beer
+Last, but not least, if you like this project and find it useful you can buy me a beer
 
 * __BitCoin__: _12toiKBQG8NukypFSd5qKvWCp1rtoPqyur_
 * __LiteCoin__: _LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR_

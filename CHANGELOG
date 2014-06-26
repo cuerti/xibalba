@@ -12,6 +12,9 @@ highlights.
  0.5.2 - 26/Jun/2014
 ------------------------------------------------------------------------
 
+ - We (finally!) created a README.md file.
+ - We (finally!) migrated the code and the source files from a 
+   self-hosted server repo at RedHat OpenShift, to GitHub (yay!)
  - Changed Xibalba's directory structure (added /images).
  - Changed the [-V, --changelog] layout.
  - Added 'less' dep.
@@ -24,6 +27,19 @@ highlights.
    VPN, the startup connection never happens (only works when you're not
    using the Internet Kill Switch [-k, --killswitch]).
  - Changed the 'CHANGELOG' file layout.
+ - Added information about the 2 operational modes in [-h, --help] and 
+   the README.md file.
+ - Added raw 'VERSION' file to github (and removed the old version.txt
+   from RedHat OpenShift host.
+ - Add donation information to README.md
+ - Removed the usage of md5sum.txt (@ xibalba.py). Now github generates
+   the .zip bundles automatically :)
+ - Replaced the old self-hosted bundle (at RedHat OpenShift) named 
+   latest.tar.bz2 for a brand new master.zip generated automatically by 
+   github archive.
+ - Added donation info to the manpage.
+ - Added issue tracking info to the manpage
+   
  
 
 

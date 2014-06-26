@@ -92,4 +92,13 @@ Show this help.
 Written by eif0.
 
 .SH "BUG REPORTING"
-Report Xibalba bugs to eif0@hush.com
+Report Xibalba bugs to \fBeif0@hush.com\fP 
+.br
+Also you can submit bugs to our \fBissue tracker\fP [\fIhttps://github.com/cuerti/xibalba/issues\fP]
+
+.SH "DONATIONS"
+.IP "If you like this project and find it useful you can buy me a beer"
+\fBBitCoin:\fP 12toiKBQG8NukypFSd5qKvWCp1rtoPqyur
+.br
+\fBLiteCoin:\fP LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR
+
