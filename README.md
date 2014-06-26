@@ -5,7 +5,7 @@ Xibalba is a networking tool focused on those who use VPN connections most part 
 The application has two major ways of use:
 * __"Reconnection" mode:__ If Xibalba detects that your VPN is down, it alert the user and tries to restore the VPN connection automatically. This is Xibalba's default behaviour (no extra flag needed).
 
-* __"Internet Kill Switch" mode:__ If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages. By doing this you're really secure, and if your VPN goes down there is no way your IP get leaked when your VPN falls. You want to run Xibalba with the Kill Switch feature, you have tu use [-k, --killswitch] param.
+* __"Internet Kill Switch" mode:__ If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages. By doing this you're really secure, and if your VPN goes down there is no way your IP get leaked. If you want to run Xibalba with the Kill Switch feature, you have tu use [-k, --killswitch] param.
 
 It all started when I was looking for some app that could monitor my VPN connections and implements a KillSwitch when any of them fail. After a while I couldn't find nothing that implement this in a secure way, so this project is my take at creating one.
 
@@ -60,7 +60,7 @@ You can help this project by reporting problems, suggestions, or contributing to
 
 Also, you can always contact me at eif0@hush.com
 
-### Report a problem or suggestion/ideas
+### Report a problem or suggestions/ideas
 
 Go to Xibalba's [issue tracker](https://github.com/cuerti/xibalba/issues) and check if your problem/suggestion is already reported. If not, create a new issue with a descriptive title and detail your suggestion or steps to reproduce the problem.
 
@@ -70,6 +70,6 @@ Also, as said before, my email is always available for suggestions, ideas and ca
 
 Last, but not least, if you like this project and find it usefull you can buy me a beer
 
-* BitCoin: __12toiKBQG8NukypFSd5qKvWCp1rtoPqyur__
-* LiteCoin: __LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR__
+* __BitCoin__: _12toiKBQG8NukypFSd5qKvWCp1rtoPqyur_
+* __LiteCoin__: _LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR_
 
