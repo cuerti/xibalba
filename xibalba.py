@@ -507,7 +507,7 @@ else:
                     os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
                     os.system("chmod 777 /tmp/xibalba-latest.zip")
                     self.message("\nDOWNLOAD SUCCESSFUL!\n\nYou can find the (.zip) bundle file in:   /tmp/xibalba-latest.zip\n\n")
-                
+                bundlemsg.destroy()
                 self.message("\nXibalba will close...\n\nRun Xibalba again to start "+latest+" version\n\n")
                 gtk.main_quit()
                 sys.exit(2)    
