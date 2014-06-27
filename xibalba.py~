@@ -493,8 +493,8 @@ else:
                 
                 ###ALTERNATE WAY OF REVERTING CHANGES (replace of 'git checkout HEAD')
                 #os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" reset --hard -q")
-                updatemsg = "THE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version installed: "+latest+"\n\nXibalba will close...\n\nPlease run Xibalba again to start the new version installed.\n\nHINT: We also downloaded a bundle for you!\n\nYou can find the (.zip) file in:\n\n    /tmp/xibalba-latest.zip\n \n"
-                self.message(updatemsg)
+
+                self.message("Download complete!\n\nYou can find the file in:\n\n    /tmp/xibalba-latest.zip\n")
                 
             msg.destroy()
             gtk.main_quit()
