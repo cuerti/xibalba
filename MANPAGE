@@ -1,4 +1,4 @@
-.TH "XIBALBA" "1" "June 26, 2014" " 0.5.2" "Networking Tools"
+.TH "XIBALBA" "1" "June 27, 2014" " 0.5.3" "Networking Tools"
 .SH "NAME"
 Xibalba \(em VPN monitor tool and Internet Kill Switch
 .SH "MODES"

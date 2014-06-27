@@ -9,6 +9,23 @@ highlights.
 
 
 ------------------------------------------------------------------------
+ 0.5.3 - 27/Jun/2014
+------------------------------------------------------------------------
+ 
+ - MAJOR UPDATE: Replaced the old and useless version update method; 
+   the new update method runs an update directly from GitHub (yay!) 
+   (actually it runs a 'git checkout' and a 'git pull origin master' 
+   in quiet mode [-q]. Apart from that, it allows the user to download a 
+   bundle (.zip) file from GitHub Archive, packaging all the sources.
+ - Added 'iptables', 'iptables-save' and 'iptables-restore' to deps
+   (only apply if running Xibalba as root).
+ - Changed the dependences checking method (external variable replacing
+   the old and ugly array).
+ - Added 'git' to deps.
+
+
+
+------------------------------------------------------------------------
  0.5.2 - 26/Jun/2014
 ------------------------------------------------------------------------
 
