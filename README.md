@@ -2,7 +2,7 @@
 
 Xibalba is a networking tool focused on those who use VPN connections most part of the day and want to be sure that their secure connection is always alive.
 
-###_The application has two major ways of use:_
+####_The application has two major ways of use:_
 * __"Reconnection"__ mode: If Xibalba detects that your VPN is down, it alert the user and tries to restore the VPN connection automatically. This is Xibalba's default behaviour (no extra flag needed).
 
 * __"Internet Kill Switch"__ mode: If Xibalba detects that your VPN is down, it automatically alert the user and shut down all the network trafic by applying some iptables rules, dropping all INPUT, FORWARD and OUTPUT packages. By doing this you're really secure, and if your VPN goes down there is no way your IP get leaked. If you want to run Xibalba with the Kill Switch feature, you have tu use [-k, --killswitch] param.
