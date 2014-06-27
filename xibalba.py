@@ -486,8 +486,12 @@ else:
                 os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
                 os.system("chmod 777 /tmp/xibalba-latest.zip")
 
-#                pathname = os.path.dirname(sys.argv[0])
-#                os.system("git pull origin master "+os.path.abspath(pathname)+"/CHANGELOG")
+                pathname = os.path.dirname(sys.argv[0])
+                os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" checkout HEAD^ -q -f")
+                os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" pull origin master -q")
+
+                ###ALTERNATE WAY OF REVERTING CHANGES (replace of 'git checkout HEAD')
+                #os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" reset --hard -q")
 
                 self.message("Download complete!\n\nYou can find the file in:\n\n    /tmp/xibalba-latest.zip\n")
 
