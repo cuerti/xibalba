@@ -12,6 +12,10 @@
 #   - wget
 #   - man
 #   - less
+#   - iptables
+#   - iptables-restore
+#   - iptables-save
+#   - git
 
 
 
@@ -82,7 +86,12 @@ else:
 
         return None
 
-    for dep in ["wget", "zenity", "python2", "man", "less"]:
+    if (getpass.getuser() != "root"):
+        alldeps = ["wget", "zenity", "python2", "man", "less", "git"]
+    else:
+        alldeps = ["wget", "zenity", "python2", "man", "less", "git", "iptables", "iptables-save", "iptables-restore"]
+        
+    for dep in alldeps:
         if (which(dep) == None):
             print("\n\nWARNING: Xibalba needs '"+color.BOLD+dep+color.END+"' to be installed in your system.\n\nPlease install '"+color.BOLD+dep+color.END+"' and try to run Xibalba again.\n\n")
             sys.exit(2)
@@ -157,7 +166,7 @@ else:
         os.system(logcommand)
 
         try:
-            latest = urllib.urlopen('https://raw.githubusercontent.com/cuerti/xibalba/master/VERSION').read().split()[0]
+            latest = urllib.urlopen('https://raw.githubusercontent.com/eif0/xibalba/master/VERSION').read().split()[0]
         except:
             latest = "0.0"
         
@@ -472,10 +481,14 @@ else:
             response = msg.run()
 
             if str(response) == "-8":   ### '-8' is the value of the "YES" button in the dialog
-                if (os.path.isfile("/tmp/xibalba-latest.tar.bz2")):
-                    os.system("rm -f /tmp/xibalba-latest.tar.bz2")
-                os.system("wget -r -q https://github.com/cuerti/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
-                os.system("chmod 777 /tmp/xibalba-latest.tar.bz2")
+                if (os.path.isfile("/tmp/xibalba-latest.zip")):
+                    os.system("rm -f /tmp/xibalba-latest.zip")
+                os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
+                os.system("chmod 777 /tmp/xibalba-latest.zip")
+
+#                pathname = os.path.dirname(sys.argv[0])
+#                os.system("git pull origin master "+os.path.abspath(pathname)+"/CHANGELOG")
+
                 self.message("Download complete!\n\nYou can find the file in:\n\n    /tmp/xibalba-latest.zip\n")
 
             msg.destroy()
@@ -531,11 +544,11 @@ else:
             updates.show()
             menu.append(updates)
             if (oldrelease):
-                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can download the latest stable version from here:\n\n    https://github.com/cuerti/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
+                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can download the latest stable version from here:\n\n    https://github.com/eif0/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
             elif (version == latest):
                 updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\n\nYour version is up to date :)')
             else:
-                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nPlease download the latest stable version from here:\n\n    https://github.com/cuerti/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
+                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nPlease download the latest stable version from here:\n\n    https://github.com/eif0/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
 
             # add quit item
             quit = gtk.MenuItem("Quit")

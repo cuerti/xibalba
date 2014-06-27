@@ -1,4 +1,4 @@
-## [Xibalba](https://github.com/cuerti/xibalba) – VPN monitor tool and Internet Kill Switch
+## [Xibalba](https://github.com/eif0/xibalba) – VPN monitor tool and Internet Kill Switch
 
 Xibalba is a networking tool focused on those who use VPN connections most part of the day and want to be sure that their secure connection is always alive.
 
@@ -30,10 +30,10 @@ For those cute GUI windows Xibalba uses PyGTK -GTK2- (migration to GTK3 is also 
 
 
 You can clone this repo with a simple:
-``$ git clone https://github.com/cuerti/xibalba.git``
+``$ git clone https://github.com/eif0/xibalba.git``
 
 
-You can also download a bundle with all Xibalba's sources from [here](https://github.com/cuerti/xibalba/archive/master.zip).
+You can also download a bundle with all Xibalba's sources from [here](https://github.com/eif0/xibalba/archive/master.zip).
 
 
 ### Third party libraries & deps
@@ -63,7 +63,7 @@ Also, you can always contact me at eif0@hush.com
 
 ### Report a problem or suggestions/ideas
 
-Go to Xibalba's [issue tracker](https://github.com/cuerti/xibalba/issues) and check if your problem/suggestion is already reported. If not, create a new issue with a descriptive title and detail your suggestion or steps to reproduce the problem.
+Go to Xibalba's [issue tracker](https://github.com/eif0/xibalba/issues) and check if your problem/suggestion is already reported. If not, create a new issue with a descriptive title and detail your suggestion or steps to reproduce the problem.
 
 Also, as said before, my email is always available for suggestions, ideas and cat pictures.
 
