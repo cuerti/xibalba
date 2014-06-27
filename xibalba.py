@@ -497,7 +497,7 @@ else:
                 self.message(updatemsg)
                 msg.destroy()
 
-                updatemsg = "\nDo you want to downloaded also a bundle with the sources?\n"   ##   You can find the (.zip) file in:   /tmp/xibalba-latest.zip\n\n"
+                updatemsg = "\nDo you want to download also a bundle with the sources?\n"   ##   You can find the (.zip) file in:   /tmp/xibalba-latest.zip\n\n"
                 bundlemsg = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_YES_NO, updatemsg)
                 downloadresponse = bundlemsg.run()
                 
@@ -506,9 +506,9 @@ else:
                         os.system("rm -f /tmp/xibalba-latest.zip")
                     os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
                     os.system("chmod 777 /tmp/xibalba-latest.zip")
-                    self.message("\nYou can find the (.zip) bundle file in:   /tmp/xibalba-latest.zip\n\n")
+                    self.message("\nDOWNLOAD SUCCESSFUL!\n\nYou can find the (.zip) bundle file in:   /tmp/xibalba-latest.zip\n\n")
                 
-                self.message("Xibalba will close...\n\nRun Xibalba again to start "+latest+" version.\n\n")
+                self.message("\nXibalba will close...\n\nRun Xibalba again to start "+latest+" version\n\n")
                 gtk.main_quit()
                 sys.exit(2)    
 
@@ -566,11 +566,11 @@ else:
             updates.show()
             menu.append(updates)
             if (oldrelease):
-                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can download the latest stable version from here:\n\n    https://github.com/eif0/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
+                updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\nYou can manually download the latest stable version from:\n\n    https://github.com/eif0/xibalba\n\n\n\n Do you want to auto-update your running version now?')
             elif (version == latest):
                 updates.connect('activate', self.check_updates, 'You are running:  Xibalba '+version+'\n\nYour version is up to date :)')
             else:
-                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nPlease download the latest stable version from here:\n\n    https://github.com/eif0/xibalba/archive/master.zip\n\n\n\n Do you wanna to download it now?')
+                updates.connect('activate', self.check_updates, 'THERE IS SOMETHING WEIRD GOING ON HERE!\n\nYou are running:  Xibalba '+version+'\nThe last stable version is '+latest+'\n\n\n> > You have an issue with your Xibalba version < <\n\n\nYou can manually download the latest stable version from:\n\n    https://github.com/eif0/xibalba\n\n\n\n Do you want to auto-update your running version now?')
 
             # add quit item
             quit = gtk.MenuItem("Quit")
