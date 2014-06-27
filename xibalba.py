@@ -127,7 +127,7 @@ else:
 
     oldrelease = False
 
-    version = "0.5.2"
+    version = "0.5.3"
 
     connectedonstartup = False
     logpath = "/tmp/xibalba.log"
@@ -481,23 +481,34 @@ else:
             response = msg.run()
 
             if str(response) == "-8":   ### '-8' is the value of the "YES" button in the dialog
-                if (os.path.isfile("/tmp/xibalba-latest.zip")):
-                    os.system("rm -f /tmp/xibalba-latest.zip")
-                os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
-                os.system("chmod 777 /tmp/xibalba-latest.zip")
+
                 print("\n\nXibalba is being updated...\n\n")
                 pathname = os.path.dirname(sys.argv[0])
                 os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" checkout HEAD^ -q -f")
                 os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" pull origin master -q")
-                print("\n\nTHE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version: "+color.BOLD+latest+color.END+"\n\nXibalba is stopping...\n\nPlease run Xibalba again to start the new version installed.\n\n\n")
-                
+
                 ###ALTERNATE WAY OF REVERTING CHANGES (replace of 'git checkout HEAD')
                 #os.system("git --git-dir="+os.path.abspath(pathname)+"/.git --work-tree="+os.path.abspath(pathname)+" reset --hard -q")
 
-                updatemsg = "THE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version installed: "+latest+"\n\n\nXibalba will close...\n\nPlease run Xibalba again to start the new version installed.\n\n\n\nHINT: We also downloaded a bundle for you!\n      You can find the (.zip) file in:   /tmp/xibalba-latest.zip\n\n"
+                print("\n\nTHE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version: "+color.BOLD+latest+color.END+"\n\nXibalba is stopping...\n\nPlease run Xibalba again to start the new version installed.\n\n\n")
+
+                #updatemsg = "THE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version installed: "+latest+"\n\n\nXibalba will close...\n\nPlease run Xibalba again to start the new version installed.\n\n\n\nHINT: We also downloaded a bundle for you!\n      You can find the (.zip) file in:   /tmp/xibalba-latest.zip\n\n"
+                updatemsg = "THE UPDATE PROCESS WAS SUCCESSFUL!\n\nNew version installed: "+latest+"\n\n"
                 self.message(updatemsg)
                 msg.destroy()
-                self.message("Remember that Xibalba is stoping NOW...\n\nRun Xibalba again to start "+latest+" version.\n\n")
+
+                updatemsg = "\nDo you want to downloaded also a bundle with the sources?\n"   ##   You can find the (.zip) file in:   /tmp/xibalba-latest.zip\n\n"
+                bundlemsg = gtk.MessageDialog(None, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_YES_NO, updatemsg)
+                downloadresponse = bundlemsg.run()
+                
+                if str(downloadresponse) == "-8":   ### '-8' is the value of the "YES" button in the dialog
+                    if (os.path.isfile("/tmp/xibalba-latest.zip")):
+                        os.system("rm -f /tmp/xibalba-latest.zip")
+                    os.system("wget -r -q https://github.com/eif0/xibalba/archive/master.zip -O /tmp/xibalba-latest.zip")
+                    os.system("chmod 777 /tmp/xibalba-latest.zip")
+                    self.message("\nYou can find the (.zip) bundle file in:   /tmp/xibalba-latest.zip\n\n")
+                
+                self.message("Xibalba will close...\n\nRun Xibalba again to start "+latest+" version.\n\n")
                 gtk.main_quit()
                 sys.exit(2)    
 
