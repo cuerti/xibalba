@@ -3,5 +3,5 @@
 *.swp
 *.out
 *.py[cod]
-TO-DO/*
+/TO-DO
 .env
