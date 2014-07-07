@@ -74,3 +74,4 @@ Last, but not least, if you like this project and find it useful you can buy me 
 * __BitCoin__: _12toiKBQG8NukypFSd5qKvWCp1rtoPqyur_
 * __LiteCoin__: _LXtAKuXqCKWD6AWnGqZ6iw7HduqCgsXMhR_
 
+
