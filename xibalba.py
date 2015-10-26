@@ -529,7 +529,7 @@ else:
             about_dialog.set_icon_name ("Xibalba")
             about_dialog.set_name('Xibalba')
             about_dialog.set_version(version)
-            about_dialog.set_copyright("GPLv3 - 2014 | @eif0")
+            about_dialog.set_copyright("GPLv3 - 2015 | @eif0")
             about_dialog.set_comments(("VPN monitor tool and Internet Kill Switch"))
             about_dialog.set_authors(['eif0 <eif0@hush.com>'])
             about_dialog.run()
