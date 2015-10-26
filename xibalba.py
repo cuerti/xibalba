@@ -127,7 +127,7 @@ else:
 
     oldrelease = False
 
-    version = "0.5.3"
+    version = "0.5.4"
 
     connectedonstartup = False
     logpath = "/tmp/xibalba.log"
@@ -186,7 +186,7 @@ else:
 
         namecounter = sum(1 for w in connectionname.lower().split())
 
-        grepcommand = "nmcli con status | grep \""+connectionname+"\""
+        grepcommand = "nmcli con show --active | grep \""+connectionname+"\""
 
         time.sleep(3)
         app.update_icon()
@@ -235,7 +235,7 @@ else:
             switchmsg = "zenity --warning --text='Your VPN is disconnected!\n\nTrying to connect at Xibalba startup...\n\n'"
             os.system(switchmsg)
 
-            grepcommand = "nmcli con status | grep \""+connectionname+"\""
+            grepcommand = "nmcli con show --active | grep \""+connectionname+"\""
             p = Popen(grepcommand, shell=True, stdout=PIPE, stderr=PIPE)
             out, err = p.communicate()
             if (out == ""):
