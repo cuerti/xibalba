@@ -113,6 +113,7 @@ else:
     global uuid
     global cycle
     global parcialtime
+    global surfshark
     global killswitch
     global restoremode
     global wasconnected
@@ -124,14 +125,18 @@ else:
     global latest
     global checkcount
     global connectedonstartup
+    global surfshark_connected
 
     oldrelease = False
 
     version = "0.5.4"
 
+    surfshark = False
+    surfshark_connected = False
     connectedonstartup = False
     logpath = "/tmp/xibalba.log"
     connectionname = ""
+    word = ""
     uuid = ""
     cycle = 30
     parcialtime = 0
@@ -158,6 +163,7 @@ else:
         global latest
         global checkcount
         global connectedonstartup
+        global surfshark_connected
 
         print("\nStarting Xibalba...\n")
 
@@ -184,107 +190,125 @@ else:
             oldrelease = True
 
 
-        namecounter = sum(1 for w in connectionname.lower().split())
-
-        grepcommand = "nmcli con show --active | grep \""+connectionname+"\""
-
-        time.sleep(3)
-        app.update_icon()
+        if (surfshark == True):
+            grepcommand = "surfshark-vpn status"
 
 
-        p = Popen(grepcommand, shell=True, stdout=PIPE, stderr=PIPE)
-        out, err = p.communicate()
-        word = ""
 
-        if ((namecounter > 1) and (out != "")): 
-            try:
-                for i in range(namecounter):
-                    word = word+out.split()[i]
-                    if i < namecounter-1:
-                        word = word+" "
-            except:
-                print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
-                if (killswitch):
-                    print(color.BOLD+"HINT:"+color.END+"\n\n - To protect you from leaks, the Internet Kill Switch only works when you "+color.UNDERLINE+"run Xibalba while connected to the VPN"+color.END+"\n\n")
-                gtk.main_quit()
-        elif (out != ""):
-            try:
-                word = out.split()[0]
-            except:
-                print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
-                gtk.main_quit()
-                sys.exit(2)
-        elif (uuid != ""): # If 'out' is empty and 'uuid' not -> the VPN should try to connect at startup
-            if (killswitch):
-                print(color.BOLD+"HINT:"+color.END+"\n\n - To protect you from leaks, the Internet Kill Switch only works when you "+color.UNDERLINE+"run Xibalba while connected to the VPN"+color.END+"\n\n")
-                gtk.main_quit()
-            upcommand = "nmcli con up uuid "+uuid+" > /dev/null"
-            logmsg = "WARNING: VPN disconnected, trying to connect at startup...\n\n"
-            reconnections = reconnections + 1
-            app.update_icon("disconnected")
-            app.icon.set_tooltip("WARNING: VPN disconnected, trying to connect...")
-            logfile = open(logpath, "a")
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d	%H:%M:%S")
-            logfile.write(timestamp+"\n")
-            logfile.write(logmsg)
-            logfile.close()
-            
-            time.sleep(1)
-            os.system(upcommand)
-            time.sleep(2)            
-            switchmsg = "zenity --warning --text='Your VPN is disconnected!\n\nTrying to connect at Xibalba startup...\n\n'"
-            os.system(switchmsg)
+        else:
+            namecounter = sum(1 for w in connectionname.lower().split())
 
             grepcommand = "nmcli con show --active | grep \""+connectionname+"\""
+
+            time.sleep(3)
+            app.update_icon()
+
+
             p = Popen(grepcommand, shell=True, stdout=PIPE, stderr=PIPE)
             out, err = p.communicate()
-            if (out == ""):
-                print("\n\n"+color.BOLD+color.UNDERLINE+"ERROR:"+color.END+" Failed to connect to your VPN!\n\n"+color.BOLD+color.UNDERLINE+"HINT:"+color.END+" Are you sure your ["+color.BOLD+"-c"+color.END+", "+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+", "+color.BOLD+"--uuid"+color.END+"] params are OK?\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
-                switchmsg = "zenity --warning --text='Failed to connect to your VPN!\n\nAre you sure your [-c, --connection] and [-u, --uuid] params are OK?\n\n'"
+            word = ""
+
+            if ((namecounter > 1) and (out != "")): 
+                try:
+                    for i in range(namecounter):
+                        word = word+out.split()[i]
+                        if i < namecounter-1:
+                            word = word+" "
+                except:
+                    print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
+                    if (killswitch):
+                        print(color.BOLD+"HINT:"+color.END+"\n\n - To protect you from leaks, the Internet Kill Switch only works when you "+color.UNDERLINE+"run Xibalba while connected to the VPN"+color.END+"\n\n")
+                    gtk.main_quit()
+            elif (out != ""):
+                try:
+                    word = out.split()[0]
+                except:
+                    print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
+                    gtk.main_quit()
+                    sys.exit(2)
+            elif (uuid != ""): # If 'out' is empty and 'uuid' not -> the VPN should try to connect at startup
+                if (killswitch):
+                    print(color.BOLD+"HINT:"+color.END+"\n\n - To protect you from leaks, the Internet Kill Switch only works when you "+color.UNDERLINE+"run Xibalba while connected to the VPN"+color.END+"\n\n")
+                    gtk.main_quit()
+                upcommand = "nmcli con up uuid "+uuid+" > /dev/null"
+                logmsg = "WARNING: VPN disconnected, trying to connect at startup...\n\n"
+                reconnections = reconnections + 1
+                app.update_icon("disconnected")
+                app.icon.set_tooltip("WARNING: VPN disconnected, trying to connect...")
+                logfile = open(logpath, "a")
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d	%H:%M:%S")
+                logfile.write(timestamp+"\n")
+                logfile.write(logmsg)
+                logfile.close()
+                
+                time.sleep(1)
+                os.system(upcommand)
+                time.sleep(2)            
+                switchmsg = "zenity --warning --text='Your VPN is disconnected!\n\nTrying to connect at Xibalba startup...\n\n'"
                 os.system(switchmsg)
-                gtk.main_quit()
-                sys.exit(2)                    
-            else:
-                connectedonstartup = True
-                namecounter = sum(1 for w in connectionname.lower().split())
-                if (namecounter > 1):
-                    try:
-                        for i in range(namecounter):
-                            word = word+out.split()[i]
-                            if i < namecounter-1:
-                                word = word+" "
-                    except:
-                        print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
-                        gtk.main_quit()   
-                        sys.exit(2)             
-                        
+
+                grepcommand = "nmcli con show --active | grep \""+connectionname+"\""
+                p = Popen(grepcommand, shell=True, stdout=PIPE, stderr=PIPE)
+                out, err = p.communicate()
+                if (out == ""):
+                    print("\n\n"+color.BOLD+color.UNDERLINE+"ERROR:"+color.END+" Failed to connect to your VPN!\n\n"+color.BOLD+color.UNDERLINE+"HINT:"+color.END+" Are you sure your ["+color.BOLD+"-c"+color.END+", "+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+", "+color.BOLD+"--uuid"+color.END+"] params are OK?\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
+                    switchmsg = "zenity --warning --text='Failed to connect to your VPN!\n\nAre you sure your [-c, --connection] and [-u, --uuid] params are OK?\n\n'"
+                    os.system(switchmsg)
+                    gtk.main_quit()
+                    sys.exit(2)                    
                 else:
-                    try:
-                        word = out.split()[0]
-                    except:
-                        print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
-                        gtk.main_quit()
-                        sys.exit(2)
-                        
-        else: 
+                    connectedonstartup = True
+                    namecounter = sum(1 for w in connectionname.lower().split())
+                    if (namecounter > 1):
+                        try:
+                            for i in range(namecounter):
+                                word = word+out.split()[i]
+                                if i < namecounter-1:
+                                    word = word+" "
+                        except:
+                            print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
+                            gtk.main_quit()   
+                            sys.exit(2)             
+                            
+                    else:
+                        try:
+                            word = out.split()[0]
+                        except:
+                            print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
+                            gtk.main_quit()
+                            sys.exit(2)
+                            
+            else: 
 
-            print("-----------------------------------------------------------------\n")
-            print("--   "+color.BOLD+color.UNDERLINE+"EXECUTION FAILED WHILE IDENTIFYING YOUR VPN INFORMATION"+color.END+"   --\n")
-            print("-----------------------------------------------------------------\n\n")
-            print(color.BOLD+"NEED SOME HELP ?"+color.END+"\n")
-            print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is active"+color.END+" and connected: You should use only ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter (["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] is also welcome, but not mandatory)\n")
-            print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is not active"+color.END+": You should use ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] parameters (both are mandatory)\n\n")
-            print(color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
-            print("\n\n         >> For full documentation and help, use ["+color.BOLD+"-h"+color.END+', '+color.BOLD+"--help"+color.END+"] parameter <<\n\n")
+                print("-----------------------------------------------------------------\n")
+                print("--   "+color.BOLD+color.UNDERLINE+"EXECUTION FAILED WHILE IDENTIFYING YOUR VPN INFORMATION"+color.END+"   --\n")
+                print("-----------------------------------------------------------------\n\n")
+                print(color.BOLD+"NEED SOME HELP ?"+color.END+"\n")
+                print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is active"+color.END+" and connected: You should use only ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter (["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] is also welcome, but not mandatory)\n")
+                print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is not active"+color.END+": You should use ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] parameters (both are mandatory)\n\n")
+                print(color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
+                print("\n\n         >> For full documentation and help, use ["+color.BOLD+"-h"+color.END+', '+color.BOLD+"--help"+color.END+"] parameter <<\n\n")
 
-            gtk.main_quit()
-            sys.exit(2)
+                gtk.main_quit()
+                sys.exit(2)
 
         while True:
             p = Popen(grepcommand, shell=True, stdout=PIPE, stderr=PIPE)
             out, err = p.communicate()
 
             checkcount = checkcount+1
+
+
+            if (surfshark):
+                if ("Connected to Surfshark VPN" in out):
+                    surfshark_connected = True
+                    connectionname = "Surfshark"
+                    word = ""
+                else:
+                    surfshark_connected = False
+                    connectionname = "Surfshark"
+                    word = ""
+
 
      
             try:
@@ -299,38 +323,64 @@ else:
                 except:
                     country = " [N/A] "
 
-            if ((out == "") and (uuid == "")) or (connectionname == ""):
-                
-                if (killswitch):
-                    print("\n"+color.BOLD+"ERROR:"+color.END+" You're not connected to a VPN\n\n\n"+color.BOLD+"HINT:"+color.END+"\n\n  - To protect you from leaks, the Internet Kill Switch only works when you run Xibalba while connected to the VPN\n  - If you're already connected to the VPN, please check if you wrote it's name/label right in the ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n")
-                    print("\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
+            if (surfshark == True and surfshark_connected == False):
+
+
+
+                logmsg = "WARNING: Surfshark VPN is disconnected.\n\n"
+                app.update_icon("disconnected")
+                app.icon.set_tooltip("WARNING: VPN disconnected.\nIP: "+ip+country)
+                logfile = open(logpath, "a")
+                timestamp = datetime.datetime.now().strftime("%Y-%m-%d	%H:%M:%S")
+                logfile.write(timestamp+"\n")
+                logfile.write(logmsg)
+                logfile.close()
+                morezinfo = ""
+
+                disconnectionzmsg = "zenity --warning --text='WARNING: Your VPN is DOWN!'"
+                os.system(disconnectionzmsg)
+
+
+            else:
+                if ((out == "") and (uuid == "")) or (connectionname == ""):
+
+                    if (killswitch):
+                        print("\n"+color.BOLD+"ERROR:"+color.END+" You're not connected to a VPN\n\n\n"+color.BOLD+"HINT:"+color.END+"\n\n  - To protect you from leaks, the Internet Kill Switch only works when you run Xibalba while connected to the VPN\n  - If you're already connected to the VPN, please check if you wrote it's name/label right in the ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n")
+                        print("\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
+                        gtk.main_quit()
+                        sys.exit(2)
+
+
+                    print("-----------------------------------------------------------------\n")
+                    print("--   "+color.BOLD+color.UNDERLINE+"EXECUTION FAILED WHILE IDENTIFYING YOUR VPN INFORMATION"+color.END+"   --\n")
+                    print("-----------------------------------------------------------------\n\n")
+                    print(color.BOLD+"NEED SOME HELP ?"+color.END+"\n")
+                    print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is active"+color.END+" and connected: You should use only ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter (["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] is also welcome, but not mandatory)\n")
+                    print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is not active"+color.END+": You should use ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] parameters (both are mandatory)\n\n")
+                    print(color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
+                    print("\n\n         >> For full documentation and help, use ["+color.BOLD+"-h"+color.END+', '+color.BOLD+"--help"+color.END+"] parameter <<\n\n")
                     gtk.main_quit()
                     sys.exit(2)
+                elif (out == "") and (connectionname == "") and (uuid == ""):
+                    print("It looks like you wrote bad your connection name/label ("+color.BOLD+"-c"+color.END+" param)\n\n")
+                    gtk.main_quit()
+                elif (out != ""):
+                    if (surfshark == False):
+                        uuid = out.split()[namecounter]
 
+                if (surfshark == False):
+                    upcommand = "nmcli con up uuid "+uuid+" > /dev/null"
+                else:
+                    upcommand = "echo"
+	            
 
-                print("-----------------------------------------------------------------\n")
-                print("--   "+color.BOLD+color.UNDERLINE+"EXECUTION FAILED WHILE IDENTIFYING YOUR VPN INFORMATION"+color.END+"   --\n")
-                print("-----------------------------------------------------------------\n\n")
-                print(color.BOLD+"NEED SOME HELP ?"+color.END+"\n")
-                print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is active"+color.END+" and connected: You should use only ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter (["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] is also welcome, but not mandatory)\n")
-                print(" - If you are running this script while your VPN "+color.BOLD+color.UNDERLINE+"is not active"+color.END+": You should use ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] and ["+color.BOLD+"-u"+color.END+', '+color.BOLD+"--uuid"+color.END+"] parameters (both are mandatory)\n\n")
-                print(color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] param is case sensitive!\n\n")
-                print("\n\n         >> For full documentation and help, use ["+color.BOLD+"-h"+color.END+', '+color.BOLD+"--help"+color.END+"] parameter <<\n\n")
-                gtk.main_quit()
-                sys.exit(2)
-            elif (out == "") and (connectionname == "") and (uuid == ""):
-                print("It looks like you wrote bad your connection name/label ("+color.BOLD+"-c"+color.END+" param)\n\n")
-                gtk.main_quit()
-            elif (out != ""):
-                uuid = out.split()[namecounter]
+            if surfshark:
+                if (connectionname in out) and ("Connected to Surfshark VPN" in out):
+                    surfshark_connected = True
+                    word = ""
 
-
-            upcommand = "nmcli con up uuid "+uuid+" > /dev/null"
-            
-
-
-            if ((connectionname in out) and (out != "")):
-                if (connectionname == word) and (len(uuid)==36):
+            if (((connectionname in out) and (out != "") and (surfshark_connected == False)) or (surfshark_connected == True)):
+                if (((connectionname == word) and (len(uuid)==36)) or surfshark_connected):
 
                     logmsg = "VPN already connected! :)\n\n"
                     app.update_icon("connected")
@@ -341,7 +391,7 @@ else:
                     logfile.write(logmsg)
                     logfile.close()
                     wasconnected = True
-                elif ((word == "")and (connectedonstartup == False)):
+                elif ((word == "") and (connectedonstartup == False) and surfshark == False):
                     print("\n"+color.BOLD+"ERROR: "+color.END+"It looks like you wrote bad your connection name/label. Please check your ["+color.BOLD+"-c"+color.END+', '+color.BOLD+"--connection"+color.END+"] parameter\n\n\n"+color.BOLD+color.UNDERLINE+"REMINDER:\n\n"+color.END+" - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
                     gtk.main_quit()
                 elif (connectedonstartup):
@@ -552,6 +602,12 @@ else:
                 killstatus = "ON"
             else:
                 killstatus = "OFF"
+            
+            if (surfshark):
+                connectionname = "Surfshark"
+                word = ""
+                uuid = "N/A"            	
+
             monitinfo.connect("activate", self.show_monit_info_dialog, "MONITORING STATUS:\n\nVPN Name: "+connectionname+"\nVPN uuid: "+uuid+"\n\nCheck Cycle: "+str(int(cycle))+" seconds\n\nInternet Kill Switch: "+killstatus+"\n\nLog File: "+logpath)
 
             # show about dialog
@@ -621,7 +677,7 @@ else:
     if __name__ == "__main__":
 
         try:    
-            opts, extra = getopt.getopt(sys.argv[1:], 't:l:c:u:hkrLV', ['timeloop=','logfile=','connection=','uuid=','help','killswitch','restorenetwork','license','changelog'])    
+            opts, extra = getopt.getopt(sys.argv[1:], 't:l:c:u:hkrLVs', ['timeloop=','logfile=','connection=','uuid=','help','killswitch','restorenetwork','license','changelog','surfshark'])    
             if (extra != []):
                 print("\n\nIt looks like you have added some non-valid params...\n\n")
                 print("REMINDER ABOUT ["+color.BOLD+"-c "+color.END+', '+color.BOLD+"--connection"+color.END+"] PARAM:\n\n - If the connection name/label has more than one word, you should put it between double quotation marks (\" \")\n - This param is case sensitive!\n\n")
@@ -659,6 +715,8 @@ else:
                     uuid = param
                 if code in ["-t","--timeloop"]:
                     cycle = float(param)
+                if code in ["-s","--surfshark"]:
+                	surfshark = True
                 if code in ["-k","--killswitch"]:
                     killswitch = True
                     if ((os.path.isfile("/tmp/user-iptables")) and (getpass.getuser() == "root")):
